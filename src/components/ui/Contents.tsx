@@ -1,5 +1,6 @@
 "use client";
 import { Layout } from "antd";
+import Header from "./Header";
 import SUMBreadCrumb from "./SUMBreadCrumb";
 const { Content } = Layout;
 
@@ -12,6 +13,7 @@ const Contents = ({ children }: { children: React.ReactNode }) => {
         color: "black",
       }}
     >
+      <Header />
       <SUMBreadCrumb
         items={[
           {
