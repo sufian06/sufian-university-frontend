@@ -32,11 +32,11 @@ const Sidebar = () => {
           color: "white",
           fontSize: "2rem",
           textAlign: "center",
-          fontWeight: "700",
+          fontWeight: "600",
           marginBottom: "1rem",
         }}
       >
-        S-University
+        Sufian University
       </div>
       <Menu
         theme="dark"
