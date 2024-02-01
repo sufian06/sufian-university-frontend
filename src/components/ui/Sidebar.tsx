@@ -23,7 +23,8 @@ const Sidebar = () => {
             fontSize: "2rem",
             textAlign: "center",
             fontWeight: "600",
-            marginBottom: "1rem",
+            marginBottom: ".5rem",
+            padding: "10px 0",
           }}
         >
           Sufian University
@@ -36,8 +37,9 @@ const Sidebar = () => {
             color: "white",
             fontSize: "1rem",
             textAlign: "center",
-            fontWeight: "600",
-            marginBottom: "1rem",
+            fontWeight: "500",
+            marginBottom: ".5rem",
+            padding: "10px 0",
           }}
         >
           Sufian University
