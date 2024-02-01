@@ -14,6 +14,38 @@ const Sidebar = () => {
   const { role } = getUserInfo() as any;
   // console.log(role);
 
+  const sidebarResponsiveLogo = () => {
+    if (!collapsed) {
+      return (
+        <div
+          style={{
+            color: "white",
+            fontSize: "2rem",
+            textAlign: "center",
+            fontWeight: "600",
+            marginBottom: "1rem",
+          }}
+        >
+          Sufian University
+        </div>
+      );
+    } else {
+      return (
+        <div
+          style={{
+            color: "white",
+            fontSize: "1rem",
+            textAlign: "center",
+            fontWeight: "600",
+            marginBottom: "1rem",
+          }}
+        >
+          Sufian University
+        </div>
+      );
+    }
+  };
+
   return (
     <Sider
       collapsible
@@ -29,17 +61,7 @@ const Sidebar = () => {
         bottom: 0,
       }}
     >
-      <div
-        style={{
-          color: "white",
-          fontSize: "2rem",
-          textAlign: "center",
-          fontWeight: "600",
-          marginBottom: "1rem",
-        }}
-      >
-        Sufian University
-      </div>
+      {sidebarResponsiveLogo()}
       <Menu
         theme="dark"
         defaultSelectedKeys={["1"]}
