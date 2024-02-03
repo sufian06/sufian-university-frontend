@@ -1,6 +1,7 @@
 "use client";
 
 import Form from "@/components/Forms/Form";
+import FormDatePicker from "@/components/Forms/FormDatePicker";
 import FormInput from "@/components/Forms/FormInput";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
@@ -228,11 +229,10 @@ const CreateAdminPage = () => {
                   marginBottom: "10px",
                 }}
               >
-                <FormInput
-                  type="password"
-                  name="password"
+                <FormDatePicker
+                  name="admin.dateOfBirth"
+                  label="Date Of Birth"
                   size="large"
-                  label="Password"
                 />
               </Col>
 
