@@ -1,3 +1,4 @@
+import ActionBar from "@/components/ui/ActionBar";
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
 import { Button } from "antd";
 import Link from "next/link";
@@ -13,10 +14,11 @@ const ManageDepartmentPage = () => {
           },
         ]}
       />
-      <h1>Department List</h1>
-      <Link href="/super_admin/department/create">
-        <Button type="primary">Create Department</Button>
-      </Link>
+      <ActionBar title="Department List">
+        <Link href="/super_admin/department/create">
+          <Button type="primary">Create Department</Button>
+        </Link>
+      </ActionBar>
     </div>
   );
 };
