@@ -3,16 +3,23 @@
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
+import { useAddDepartmentMutation } from "@/redux/api/departmentApi";
 import { createDepartmentSchema } from "@/schemas/createDepartment";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, message } from "antd";
 
 const CreateDepartmentPage = () => {
+  const [addDepartment] = useAddDepartmentMutation();
+
   const onSubmit = async (data: any) => {
+    message.loading("Creating Department...");
     try {
       console.log(data);
-    } catch (err) {
+      await addDepartment(data);
+      message.success("Department added successfully!");
+    } catch (err: any) {
       console.error(err);
+      message.error(err.message);
     }
   };
 

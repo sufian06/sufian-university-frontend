@@ -1,4 +1,4 @@
-import { Row, Space, Spin } from "antd";
+import { Row, Spin } from "antd";
 
 const Loading = () => {
   return (
@@ -9,9 +9,10 @@ const Loading = () => {
         height: "100vh",
       }}
     >
-      <Space>
+      {/* <Space>
         <Spin tip="Loading" size="large" />
-      </Space>
+      </Space> */}
+      <Spin size="large" />
     </Row>
   );
 };
