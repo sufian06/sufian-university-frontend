@@ -3,7 +3,10 @@ import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import ActionBar from "@/components/ui/ActionBar";
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
-import { useDepartmentQuery } from "@/redux/api/departmentApi";
+import {
+  useDepartmentQuery,
+  useUpdateDepartmentMutation,
+} from "@/redux/api/departmentApi";
 import { Button, Col, Row, message } from "antd";
 
 type IDProps = {
@@ -14,15 +17,14 @@ const EditDepartmentPage = ({ params }: IDProps) => {
   const { id } = params;
 
   const { data, isLoading } = useDepartmentQuery(id);
-  console.log(data);
+  const [updateDepartment] = useUpdateDepartmentMutation();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (values: { title: string }) => {
     message.loading("Updating Department...");
     try {
-      console.log(data);
+      await updateDepartment({ id, body: values });
       message.success("Department updated successfully!");
     } catch (err: any) {
-      console.error(err);
       message.error(err.message);
     }
   };
