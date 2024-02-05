@@ -4,8 +4,13 @@ import ActionBar from "@/components/ui/ActionBar";
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
 import SUMTable from "@/components/ui/SUMTable";
 import { useDepartmentsQuery } from "@/redux/api/departmentApi";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
+import { Button, Input } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -16,11 +21,13 @@ const ManageDepartmentPage = () => {
   const [page, setPage] = useState<number>(1);
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
+  query["searchTerm"] = searchTerm;
 
   const { data, isLoading } = useDepartmentsQuery({ ...query });
 
@@ -76,6 +83,12 @@ const ManageDepartmentPage = () => {
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
 
+  const resetFilters = () => {
+    setSortBy("");
+    setSortOrder("");
+    setSearchTerm("");
+  };
+
   return (
     <div>
       <SUMBreadCrumb
@@ -87,9 +100,29 @@ const ManageDepartmentPage = () => {
         ]}
       />
       <ActionBar title="Department List">
-        <Link href="/super_admin/department/create">
-          <Button type="primary">Create Department</Button>
-        </Link>
+        <Input
+          type="text"
+          size="large"
+          placeholder="Search"
+          style={{
+            width: "20%",
+          }}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div>
+          <Link href="/super_admin/department/create">
+            <Button type="primary">Create Department</Button>
+          </Link>
+          {(!!sortBy || !!sortOrder || !!searchTerm) && (
+            <Button
+              onClick={resetFilters}
+              type="primary"
+              style={{ margin: "0 5px" }}
+            >
+              <ReloadOutlined />
+            </Button>
+          )}
+        </div>
       </ActionBar>
       <SUMTable
         loading={isLoading}
