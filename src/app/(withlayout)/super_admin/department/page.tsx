@@ -8,10 +8,10 @@ import { useDebounced } from "@/redux/hooks";
 import {
   DeleteOutlined,
   EditOutlined,
-  EyeOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import { Button, Input } from "antd";
+import dayjs from "dayjs";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -52,6 +52,9 @@ const ManageDepartmentPage = () => {
     {
       title: "CreatedAt",
       dataIndex: "createdAt",
+      render: function (data: any) {
+        return data && dayjs(data).format("MMM D, YYYY hh:mm A");
+      },
       sorter: true,
     },
     {
@@ -59,18 +62,18 @@ const ManageDepartmentPage = () => {
       render: function (data: any) {
         return (
           <>
-            <Button onClick={() => console.log(data)} type="primary">
-              <EyeOutlined />
-            </Button>
-            <Button
-              style={{
-                margin: "0 5px",
-              }}
-              onClick={() => console.log(data)}
-              type="primary"
-            >
-              <EditOutlined />
-            </Button>
+            <Link href={`/super_admin/department/edit/${data?.id}`}>
+              <Button
+                style={{
+                  margin: "0 5px",
+                }}
+                onClick={() => console.log(data)}
+                type="primary"
+              >
+                <EditOutlined />
+              </Button>
+            </Link>
+
             <Button onClick={() => console.log(data)} type="primary" danger>
               <DeleteOutlined />
             </Button>
@@ -81,14 +84,12 @@ const ManageDepartmentPage = () => {
   ];
 
   const onPaginationChange = (page: number, pageSize: number) => {
-    // console.log("page: ", page, "pageSize: ", pageSize);
     setPage(page);
     setSize(pageSize);
   };
 
   const onTableChange = (pagination: any, filter: any, sorter: any) => {
     const { order, field } = sorter;
-    // console.log(order, field);
     setSortBy(field as string);
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
