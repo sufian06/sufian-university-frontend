@@ -4,6 +4,7 @@ import ActionBar from "@/components/ui/ActionBar";
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
 import SUMTable from "@/components/ui/SUMTable";
 import { useDepartmentsQuery } from "@/redux/api/departmentApi";
+import { useDebounced } from "@/redux/hooks";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -17,8 +18,8 @@ import { useState } from "react";
 const ManageDepartmentPage = () => {
   const query: Record<string, any> = {};
 
-  const [size, setSize] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -27,7 +28,16 @@ const ManageDepartmentPage = () => {
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
-  query["searchTerm"] = searchTerm;
+  // query["searchTerm"] = searchTerm;
+
+  const debouncedTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (!!debouncedTerm) {
+    query["searchTerm"] = debouncedTerm;
+  }
 
   const { data, isLoading } = useDepartmentsQuery({ ...query });
 
