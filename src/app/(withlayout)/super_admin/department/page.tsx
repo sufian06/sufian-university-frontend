@@ -2,6 +2,7 @@
 
 import ActionBar from "@/components/ui/ActionBar";
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
+import SUMModal from "@/components/ui/SUMModal";
 import SUMTable from "@/components/ui/SUMTable";
 import {
   useDeleteDepartmentMutation,
@@ -26,6 +27,8 @@ const ManageDepartmentPage = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [departmentId, setDepartmentId] = useState<string>("");
 
   const [deleteDepartment] = useDeleteDepartmentMutation();
 
@@ -52,8 +55,11 @@ const ManageDepartmentPage = () => {
   const deleteHandler = async (id: string) => {
     message.loading("Deleting Department...");
     try {
-      await deleteDepartment(id);
-      message.success("Department deleted successfully!");
+      const res = await deleteDepartment(id);
+      if (res) {
+        message.success("Department deleted successfully!");
+        setOpen(false);
+      }
     } catch (err: any) {
       message.error(err.message);
     }
@@ -89,7 +95,10 @@ const ManageDepartmentPage = () => {
             </Link>
 
             <Button
-              onClick={() => deleteHandler(data?.id)}
+              onClick={() => {
+                setOpen(true);
+                setDepartmentId(data?.id);
+              }} //deleteHandler(data?.id)
               type="primary"
               danger
             >
@@ -164,6 +173,15 @@ const ManageDepartmentPage = () => {
         onTableChange={onTableChange}
         showPagination={true}
       />
+      {/* Delete with Modal */}
+      <SUMModal
+        title="Delete Department"
+        isOpen={open}
+        closeModal={() => setOpen(false)}
+        handleOk={() => deleteHandler(departmentId)}
+      >
+        <p>Do you want to delete this department?</p>
+      </SUMModal>
     </div>
   );
 };
