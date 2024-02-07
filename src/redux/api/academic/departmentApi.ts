@@ -61,9 +61,9 @@ export const academicDepartmentApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddAcademicDepartmentMutation, // create ac faculty hook
-  useAcademicDepartmentsQuery, // get all faculties hook
-  useAcademicDepartmentQuery, // get single faculty hook
-  useUpdateAcademicDepartmentMutation, // update existing faculty hook
-  useDeleteAcademicDepartmentMutation, // delete existing faculty hook
+  useAddAcademicDepartmentMutation, // create ac department hook
+  useAcademicDepartmentsQuery, // get all departments hook
+  useAcademicDepartmentQuery, // get single department hook
+  useUpdateAcademicDepartmentMutation, // update department hook
+  useDeleteAcademicDepartmentMutation, // delete existing department hook
 } = academicDepartmentApi;
