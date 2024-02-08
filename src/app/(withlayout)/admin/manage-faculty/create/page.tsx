@@ -24,7 +24,7 @@ const CreateFacultyPage = () => {
     const formData = new FormData();
     formData.append("file", file as Blob);
     formData.append("data", data);
-    message.loading("Creating...");
+    message.loading("Creating Faculty...");
     try {
       const res = await addFacultyWithFormData(formData);
       if (!!res) {
