@@ -2,8 +2,12 @@
 import ActionBar from "@/components/ui/ActionBar";
 
 import SUMBreadCrumb from "@/components/ui/SUMBreadCrumb";
+import SUMModal from "@/components/ui/SUMModal";
 import SUMTable from "@/components/ui/SUMTable";
-import { useFacultiesQuery } from "@/redux/api/facultyApi";
+import {
+  useDeleteFacultyMutation,
+  useFacultiesQuery,
+} from "@/redux/api/facultyApi";
 import { useDebounced } from "@/redux/hooks";
 import { IDepartment } from "@/types";
 import {
@@ -12,7 +16,7 @@ import {
   EyeOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useState } from "react";
@@ -24,6 +28,10 @@ const FacultyPage = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [facultyId, setFacultyId] = useState<string>("");
+
+  const [deleteFaculty] = useDeleteFacultyMutation();
 
   query["limit"] = size;
   query["page"] = page;
@@ -42,6 +50,20 @@ const FacultyPage = () => {
 
   const faculties = data?.faculties;
   const meta = data?.meta;
+
+  const deleteFacultyHandler = async (id: string) => {
+    message.loading("Faculty deleting...");
+    try {
+      const res = await deleteFaculty(id);
+      if (res) {
+        message.success("Faculty deleted successfully!");
+        setOpen(false);
+      }
+    } catch (err: any) {
+      message.error(err.message);
+    }
+  };
+
   const columns = [
     {
       title: "Id",
@@ -104,7 +126,14 @@ const FacultyPage = () => {
                 <EditOutlined />
               </Button>
             </Link>
-            <Button onClick={() => console.log(data)} type="primary" danger>
+            <Button
+              onClick={() => {
+                setOpen(true);
+                setFacultyId(data?.id);
+              }}
+              type="primary"
+              danger
+            >
               <DeleteOutlined />
             </Button>
           </>
@@ -175,6 +204,15 @@ const FacultyPage = () => {
         onTableChange={onTableChange}
         showPagination={true}
       />
+
+      <SUMModal
+        title="Delete Faculty"
+        isOpen={open}
+        closeModal={() => setOpen(false)}
+        handleOk={() => deleteFacultyHandler(facultyId)}
+      >
+        <p>Are you sure to delete the faculty?</p>
+      </SUMModal>
     </div>
   );
 };
